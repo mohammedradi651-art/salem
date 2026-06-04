@@ -1,7 +1,7 @@
 
 "use client"
 
-import { Instagram, Youtube, Send, Facebook } from "lucide-react"
+import { Instagram, Youtube, Send, Video } from "lucide-react"
 
 const platforms = [
   { 
@@ -10,19 +10,19 @@ const platforms = [
     link: "https://www.instagram.com/s.insta_x",
   },
   { 
-    name: "فيسبوك", 
-    icon: Facebook, 
-    link: "#",
+    name: "تيك توك", 
+    icon: Video, 
+    link: "https://www.tiktok.com/@salimalobathani",
   },
   { 
     name: "سناب شات", 
     icon: Send, 
-    link: "#",
+    link: "https://www.snapchat.com/add/s-insta_x",
   },
   { 
     name: "يوتيوب", 
     icon: Youtube, 
-    link: "#",
+    link: "https://youtube.com/@salim_alobathani?si=TmdaBxf76Eo6pvA3",
   },
 ]
 
