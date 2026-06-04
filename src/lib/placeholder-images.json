@@ -1,3 +1,16 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "salem-profile",
+      "description": "Portrait of Salem Al-Oubathani, professional and friendly",
+      "imageUrl": "https://picsum.photos/seed/salem/800/1000",
+      "imageHint": "man portrait"
+    },
+    {
+      "id": "content-bg",
+      "description": "Abstract digital creativity background",
+      "imageUrl": "https://picsum.photos/seed/digital/1200/800",
+      "imageHint": "abstract digital"
+    }
+  ]
 }
