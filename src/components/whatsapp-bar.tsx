@@ -18,9 +18,9 @@ export function WhatsAppBar() {
           <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center text-white shadow-lg animate-pulse">
             <MessageCircle className="h-6 w-6" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-xs text-primary font-headline font-bold">تواصل مباشرة</span>
-            <span className="text-sm font-body font-bold text-white tracking-wider" dir="ltr">{whatsappNumber}</span>
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] md:text-xs text-primary font-headline font-bold">تواصل مباشرة</span>
+            <span className="text-xs md:text-sm font-body font-bold text-white">اضغط هنا للانتقال إلى واتساب</span>
           </div>
         </div>
         <div className="bg-white/5 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
