@@ -12,9 +12,12 @@ export default function Home() {
       <AdsSection />
       <SocialPlatforms />
       
-      <footer className="py-12 px-6 border-t border-white/5 bg-[#040608] text-center">
+      <footer className="py-12 px-6 border-t border-white/5 bg-transparent text-center flex flex-col gap-2">
         <p className="text-muted-foreground font-body text-sm">
           &copy; {new Date().getFullYear()} جميع الحقوق محفوظة - سالم العوبثاني
+        </p>
+        <p className="text-primary/60 font-body text-xs font-bold tracking-wide">
+          أحد أعمال منصة ستار ميديا
         </p>
       </footer>
 
