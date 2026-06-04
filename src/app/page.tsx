@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState, useEffect } from "react"
@@ -12,7 +13,7 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // محاكاة تحميل الموقع لثوانٍ بسيطة
+    // محاكاة تحميل الموقع لثوانٍ بسيطة (2.5 ثانية)
     const timer = setTimeout(() => {
       setIsLoading(false)
     }, 2500)
@@ -21,9 +22,17 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#020617]">
-        <div className="relative mb-12 animate-pulse">
+      <div 
+        className="fixed inset-0 z-[100] flex flex-col items-center justify-center"
+        style={{ 
+          background: 'radial-gradient(circle at top right, #0c1e3a 0%, #020617 100%)',
+          backgroundColor: '#020617' 
+        }}
+      >
+        <div className="relative mb-6">
+          {/* تأثير الوهج الخلفي الثابت */}
           <div className="absolute inset-[-15%] bg-primary/20 rounded-full blur-[40px]" />
+          
           <div className="relative w-32 h-32 rounded-full overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(0,163,255,0.2)]">
             <Image
               src="https://i.postimg.cc/c4fHsTnm/Screenshot-20260604-221055-Instagram.jpg"
@@ -34,6 +43,12 @@ export default function Home() {
               priority
             />
           </div>
+        </div>
+
+        {/* النص التعريفي في شاشة التحميل */}
+        <div className="text-center mb-10 flex flex-col gap-1 animate-in fade-in slide-in-from-bottom-2 duration-700">
+          <h2 className="text-xl md:text-2xl font-headline font-bold text-white tracking-wide">سالم العوبثاني</h2>
+          <p className="text-xs md:text-sm font-body text-primary/80 font-medium">صانع محتوى</p>
         </div>
         
         {/* حركة النقاط الثلاث */}
