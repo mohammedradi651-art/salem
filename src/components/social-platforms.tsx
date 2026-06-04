@@ -1,7 +1,7 @@
 
 "use client"
 
-import { Instagram, Youtube, Video } from "lucide-react"
+import { Instagram, Youtube } from "lucide-react"
 
 // أيقونة سناب شات مخصصة تشبه التصميم المطلوب
 const SnapchatIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -23,11 +23,6 @@ const platforms = [
     name: "إنستغرام", 
     icon: Instagram, 
     link: "https://www.instagram.com/s.insta_x",
-  },
-  { 
-    name: "تيك توك", 
-    icon: Video, 
-    link: "https://www.tiktok.com/@salimalobathani",
   },
   { 
     name: "سناب شات", 
