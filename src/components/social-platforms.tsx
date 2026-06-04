@@ -1,7 +1,22 @@
 
 "use client"
 
-import { Instagram, Youtube, Send, Video } from "lucide-react"
+import { Instagram, Youtube, Video } from "lucide-react"
+
+// أيقونة سناب شات مخصصة تشبه التصميم المطلوب
+const SnapchatIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <path d="M12 3c-3.5 0-6.5 2.5-6.5 6s1 4.5 3 6c-1 1-3 1.5-3 3s2.5 3 5.5 3c.5 0 1 0 1.5-.5.5.5 1 .5 1.5.5 3 0 5.5-1.5 5.5-3s-2-2-3-3c2-1.5 3-2.5 3-6s-3-6-6.5-6z" />
+  </svg>
+)
 
 const platforms = [
   { 
@@ -16,8 +31,8 @@ const platforms = [
   },
   { 
     name: "سناب شات", 
-    icon: Send, 
-    link: "https://www.snapchat.com/add/s-insta_x",
+    icon: SnapchatIcon, 
+    link: "https://www.snapchat.com/add/s_snapx",
   },
   { 
     name: "يوتيوب", 
