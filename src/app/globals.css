@@ -4,26 +4,26 @@
 @tailwind utilities;
 
 :root {
-  --background: 222 47% 4%;
-  --foreground: 210 40% 98%;
-  --card: 222 47% 6%;
-  --card-foreground: 210 40% 98%;
-  --popover: 222 47% 4%;
-  --popover-foreground: 210 40% 98%;
-  --primary: 199 100% 50%;
+  --background: 224 71% 4%;
+  --foreground: 213 31% 91%;
+  --card: 224 71% 6%;
+  --card-foreground: 213 31% 91%;
+  --popover: 224 71% 4%;
+  --popover-foreground: 213 31% 91%;
+  --primary: 210 100% 52%;
   --primary-foreground: 222 47% 4%;
-  --secondary: 234 66% 20%;
-  --secondary-foreground: 210 40% 98%;
-  --muted: 222 47% 12%;
-  --muted-foreground: 215 20% 65%;
-  --accent: 234 66% 40%;
+  --secondary: 222 47% 11%;
+  --secondary-foreground: 213 31% 91%;
+  --muted: 223 47% 11%;
+  --muted-foreground: 215.4 16.3% 56.9%;
+  --accent: 216 34% 17%;
   --accent-foreground: 210 40% 98%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
-  --border: 222 47% 12%;
-  --input: 222 47% 12%;
-  --ring: 199 100% 50%;
-  --radius: 1rem;
+  --border: 216 34% 17%;
+  --input: 216 34% 17%;
+  --ring: 210 100% 52%;
+  --radius: 1.25rem;
 }
 
 @layer base {
@@ -37,19 +37,23 @@
 }
 
 .glass-card {
-  @apply bg-card/40 backdrop-blur-xl border border-white/10 shadow-2xl;
+  @apply bg-card/60 backdrop-blur-2xl border border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
 }
 
 .glow-blue {
-  text-shadow: 0 0 20px rgba(0, 163, 255, 0.5);
+  text-shadow: 0 0 30px rgba(0, 163, 255, 0.3);
 }
 
 .animate-float {
-  animation: float 6s ease-in-out infinite;
+  animation: float 8s ease-in-out infinite;
 }
 
 @keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-  100% { transform: translateY(0px); }
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.section-blur {
+  @apply absolute rounded-full blur-[100px] opacity-20;
 }
