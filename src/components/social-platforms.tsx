@@ -1,36 +1,61 @@
 
 "use client"
 
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Instagram, Video, Youtube, Send, MessageCircle, ArrowLeft } from "lucide-react"
+import { Instagram, Video, Youtube, Send, MessageCircle, Facebook } from "lucide-react"
 
 const platforms = [
-  { name: "إنستغرام", icon: Instagram, color: "group-hover:text-[#E4405F]", link: "https://www.instagram.com/s.insta_x" },
-  { name: "تيك توك", icon: Video, color: "group-hover:text-white", link: "#" },
-  { name: "سناب شات", icon: Send, color: "group-hover:text-[#FFFC00]", link: "#" },
-  { name: "يوتيوب", icon: Youtube, color: "group-hover:text-[#FF0000]", link: "#" },
-  { name: "واتساب", icon: MessageCircle, color: "group-hover:text-[#25D366]", link: "https://wsend.co/967734252178" },
+  { 
+    name: "إنستغرام", 
+    icon: Instagram, 
+    link: "https://www.instagram.com/s.insta_x",
+    highlight: false
+  },
+  { 
+    name: "فيسبوك", 
+    icon: Facebook, 
+    link: "#",
+    highlight: false
+  },
+  { 
+    name: "سناب شات", 
+    icon: Send, 
+    link: "#",
+    highlight: false
+  },
+  { 
+    name: "يوتيوب", 
+    icon: Youtube, 
+    link: "#",
+    highlight: true // هذا سيجعل الزر ملوناً كما في الصورة
+  },
 ]
 
 export function SocialPlatforms() {
   return (
     <section className="py-20 px-6">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-2xl md:text-4xl font-headline font-bold mb-12 text-center">تواصل معي</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+      <div className="max-w-2xl mx-auto">
+        <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-4">
+          <h2 className="text-xl md:text-2xl font-headline font-bold text-gray-400">تابعني على</h2>
+        </div>
+        
+        <div className="flex flex-col gap-4">
           {platforms.map((platform, i) => (
-            <Card key={i} className="glass-card p-6 flex flex-col items-center justify-between border-white/5 transition-all duration-500 hover:-translate-y-2 group">
-              <div className={`w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 ${platform.color} group-hover:bg-white/10`}>
-                <platform.icon className="h-6 w-6" />
-              </div>
-              <h3 className="text-lg font-headline font-bold mb-6">{platform.name}</h3>
-              <Button variant="ghost" className="w-full text-xs font-bold text-primary hover:bg-primary hover:text-white rounded-xl" asChild>
-                <a href={platform.link} target="_blank" rel="noopener noreferrer">
-                  زيارة <ArrowLeft className="mr-2 h-3 w-3" />
-                </a>
-              </Button>
-            </Card>
+            <a 
+              key={i} 
+              href={platform.link} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className={`
+                group flex items-center justify-center gap-4 p-5 rounded-2xl transition-all duration-300 border
+                ${platform.highlight 
+                  ? "bg-primary border-primary text-primary-foreground shadow-[0_10px_30px_rgba(0,163,255,0.3)] scale-[1.02]" 
+                  : "bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-primary/50"
+                }
+              `}
+            >
+              <span className="text-lg font-headline font-bold">{platform.name}</span>
+              <platform.icon className={`h-6 w-6 ${platform.highlight ? "text-primary-foreground" : "text-gray-400 group-hover:text-primary"}`} />
+            </a>
           ))}
         </div>
       </div>
