@@ -29,16 +29,24 @@
   * {
     @apply border-border;
   }
+  html {
+    /* نثبت اللون الداكن هنا لمنع ظهور البياض عند السحب */
+    background-color: #020617;
+    scroll-behavior: smooth;
+  }
   body {
     @apply text-foreground selection:bg-primary/30 min-h-screen;
     background: radial-gradient(circle at top right, #0c1e3a 0%, #020617 100%);
     background-attachment: fixed;
+    background-color: #020617;
     font-feature-settings: "rlig" 1, "calt" 1;
+    overflow-x: hidden;
   }
 }
 
 .glass-card {
-  @apply bg-white/[0.03] backdrop-blur-2xl border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.4)];
+  /* جعل الخلفية الزجاجية أغمق قليلاً لضمان عدم ظهورها كلون أبيض في المتصفحات الضعيفة */
+  @apply bg-slate-900/40 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.4)];
 }
 
 .glow-blue {
