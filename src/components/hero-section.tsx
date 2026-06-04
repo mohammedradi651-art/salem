@@ -1,15 +1,13 @@
 "use client"
 
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Instagram, Video, MessageCircle, Send } from "lucide-react"
 import { PlaceHolderImages } from "@/lib/placeholder-images"
 
 export function HeroSection() {
   const profileImg = PlaceHolderImages.find(img => img.id === 'salem-profile')
 
   return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-24 pb-16 px-6 overflow-hidden">
+    <section className="relative min-h-[80vh] flex flex-col items-center justify-center pt-24 pb-16 px-6 overflow-hidden">
       {/* عناصر خلفية مضيئة محسنة */}
       <div className="section-blur top-[-20%] right-[-10%] w-[600px] h-[600px] bg-blue-600/20" />
       <div className="section-blur bottom-[-20%] left-[-10%] w-[500px] h-[500px] bg-primary/10" />
@@ -41,32 +39,9 @@ export function HeroSection() {
           صانع محتوى رقمي • منشئ محتوى ريلز
         </p>
         
-        <p className="max-w-md text-xs md:text-sm text-gray-400 leading-relaxed mb-10 font-body opacity-90">
+        <p className="max-w-md text-xs md:text-sm text-gray-400 leading-relaxed mb-6 font-body opacity-90">
           "أشارك محتوى متنوعاً يلامس اهتمامات الجمهور العربي، مع التركيز على الجوانب الإبداعية والهادفة في عالم صناعة المحتوى."
         </p>
-
-        <div className="flex flex-wrap justify-center gap-3">
-          <Button variant="outline" className="glass-card hover:bg-white/5 rounded-2xl h-10 px-5 text-xs font-semibold transition-all duration-300 border-white/5" asChild>
-            <a href="https://www.instagram.com/s.insta_x" target="_blank" rel="noopener noreferrer">
-              <Instagram className="ml-2 h-3.5 w-3.5" /> إنستغرام
-            </a>
-          </Button>
-          <Button variant="outline" className="glass-card hover:bg-white/5 rounded-2xl h-10 px-5 text-xs font-semibold transition-all duration-300 border-white/5" asChild>
-            <a href="#" target="_blank" rel="noopener noreferrer">
-              <Video className="ml-2 h-3.5 w-3.5" /> تيك توك
-            </a>
-          </Button>
-          <Button variant="outline" className="glass-card hover:bg-white/5 rounded-2xl h-10 px-5 text-xs font-semibold transition-all duration-300 border-white/5" asChild>
-            <a href="#" target="_blank" rel="noopener noreferrer">
-              <Send className="ml-2 h-3.5 w-3.5" /> سناب شات
-            </a>
-          </Button>
-          <Button className="bg-primary text-white hover:bg-primary/80 rounded-2xl h-10 px-6 text-xs font-bold shadow-lg shadow-primary/10 transition-all duration-300" asChild>
-            <a href="https://wsend.co/967734252178" target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="ml-2 h-3.5 w-3.5" /> تواصل واتساب
-            </a>
-          </Button>
-        </div>
       </div>
     </section>
   )
