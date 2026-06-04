@@ -1,20 +1,19 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: 224 71% 4%;
+  --background: 222 47% 4%;
   --foreground: 213 31% 91%;
-  --card: 224 71% 6%;
+  --card: 222 47% 6%;
   --card-foreground: 213 31% 91%;
-  --popover: 224 71% 4%;
+  --popover: 222 47% 4%;
   --popover-foreground: 213 31% 91%;
   --primary: 210 100% 52%;
   --primary-foreground: 222 47% 4%;
   --secondary: 222 47% 11%;
   --secondary-foreground: 213 31% 91%;
-  --muted: 223 47% 11%;
+  --muted: 222 47% 11%;
   --muted-foreground: 215.4 16.3% 56.9%;
   --accent: 216 34% 17%;
   --accent-foreground: 210 40% 98%;
@@ -31,29 +30,32 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground selection:bg-primary/30;
+    @apply text-foreground selection:bg-primary/30 min-h-screen;
+    /* تدرج لوني أزرق فخم وداكن */
+    background: radial-gradient(circle at top right, #0c1e3a 0%, #020617 100%);
+    background-attachment: fixed;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
 .glass-card {
-  @apply bg-card/60 backdrop-blur-2xl border border-white/5 shadow-[0_8px_32px_0_rgba(0,0,0,0.36)];
+  @apply bg-white/[0.03] backdrop-blur-2xl border border-white/[0.08] shadow-[0_20px_50px_rgba(0,0,0,0.4)];
 }
 
 .glow-blue {
-  text-shadow: 0 0 30px rgba(0, 163, 255, 0.3);
+  text-shadow: 0 0 30px rgba(0, 163, 255, 0.4);
 }
 
 .animate-float {
-  animation: float 8s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
 @keyframes float {
-  0% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-15px) rotate(1deg); }
-  100% { transform: translateY(0px) rotate(0deg); }
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
 }
 
 .section-blur {
-  @apply absolute rounded-full blur-[100px] opacity-20;
+  @apply absolute rounded-full blur-[120px] opacity-30 pointer-events-none;
 }
