@@ -14,61 +14,60 @@ export function TvLiveSection() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [retryCount, setRetryCount] = useState(0)
   
-  // رابط البث المباشر
+  // رابط البث المباشر المحدث
   const videoUrl = "https://h42.reelpush.online/live/69854211/index.m3u8"
 
-  const initPlayer = () => {
-    setIsError(false)
-    if (videoRef.current) {
-      if (Hls.isSupported()) {
-        if (hlsRef.current) {
-          hlsRef.current.destroy()
-        }
-        
-        const hls = new Hls({
-          enableWorker: true,
-          lowLatencyMode: true,
-          backBufferLength: 60,
-          manifestLoadingMaxRetry: 8, // زيادة عدد المحاولات للروابط الضعيفة
-          levelLoadingMaxRetry: 8,
-          xhrSetup: (xhr) => {
-            xhr.withCredentials = false // ضروري لروابط IPTV
-          }
-        })
-        
-        hlsRef.current = hls
-        hls.loadSource(videoUrl)
-        hls.attachMedia(videoRef.current)
-        
-        hls.on(Hls.Events.ERROR, (event, data) => {
-          if (data.fatal) {
-            switch (data.type) {
-              case Hls.ErrorTypes.NETWORK_ERROR:
-                console.log("Network error, trying to recover...")
-                hls.startLoad()
-                break
-              case Hls.ErrorTypes.MEDIA_ERROR:
-                console.log("Media error, trying to recover...")
-                hls.recoverMediaError()
-                break
-              default:
-                console.error("Unrecoverable HLS error:", data)
-                setIsError(true)
-                hls.destroy()
-                break
-            }
-          }
-        })
-      } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
-        videoRef.current.src = videoUrl
-      } else {
-        setIsError(true)
-      }
-    }
-  }
-
   useEffect(() => {
-    initPlayer()
+    const video = videoRef.current
+    if (!video) return
+
+    setIsError(false)
+
+    // إذا كان المتصفح يدعم HLS.js
+    if (Hls.isSupported()) {
+      if (hlsRef.current) {
+        hlsRef.current.destroy()
+      }
+
+      const hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true,
+        manifestLoadingMaxRetry: 5,
+        levelLoadingMaxRetry: 5,
+      })
+
+      hlsRef.current = hls
+      hls.loadSource(videoUrl)
+      hls.attachMedia(video)
+
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        // لا نقوم بالتشغيل التلقائي هنا لتجنب حظر المتصفح، ننتظر تفاعل المستخدم
+      })
+
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        if (data.fatal) {
+          switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              hls.startLoad()
+              break
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              hls.recoverMediaError()
+              break
+            default:
+              setIsError(true)
+              hls.destroy()
+              break
+          }
+        }
+      })
+    } 
+    // دعم Safari المباشر لـ HLS
+    else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = videoUrl
+    } else {
+      setIsError(true)
+    }
+
     return () => {
       if (hlsRef.current) {
         hlsRef.current.destroy()
@@ -83,6 +82,8 @@ export function TvLiveSection() {
         setIsError(false)
       }).catch(err => {
         console.error("Playback failed:", err)
+        // في حال فشل التشغيل بسبب قيود CORS أو غيرها
+        setIsError(true)
       })
     }
   }
@@ -106,9 +107,9 @@ export function TvLiveSection() {
           {isError ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/98 p-6 text-center z-20 animate-in fade-in duration-500">
               <AlertCircle className="h-10 w-10 text-destructive mb-4 animate-pulse" />
-              <h3 className="text-lg font-bold mb-2">عذراً، المشغل المدمج لا يستجيب</h3>
+              <h3 className="text-lg font-bold mb-2">عذراً، تعذر تشغيل البث المباشر</h3>
               <p className="text-xs text-gray-400 mb-6 max-w-xs leading-relaxed">
-                رابط البث قد يحتاج لتطبيق خارجي. نوصي بفتحه عبر مشغل <span className="text-primary font-bold">VLC</span> للحصول على أفضل أداء بدون تقطيع.
+                قد يمنع المتصفح تشغيل هذا النوع من الروابط مباشرة. يرجى محاولة التحديث أو التشغيل عبر تطبيق خارجي.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <Button 
@@ -118,7 +119,7 @@ export function TvLiveSection() {
                   onClick={handleRetry}
                 >
                   <RefreshCw className="h-3.5 w-3.5" />
-                  تحديث
+                  تحديث المشغل
                 </Button>
                 <Button 
                   variant="default" 
@@ -155,7 +156,7 @@ export function TvLiveSection() {
         </Card>
         
         <p className="mt-4 text-center text-[10px] md:text-xs text-gray-500 font-body leading-relaxed max-w-sm mx-auto">
-          ملاحظة: البث المباشر يعمل بشكل أفضل على المتصفحات الحديثة، وفي حال واجهت مشكلة جرب زر "تشغيل في VLC".
+          نصيحة: إذا لم يعمل البث في المتصفح، استخدم زر "تشغيل في VLC" للحصول على جودة عالية بدون تقطيع.
         </p>
       </div>
     </section>
