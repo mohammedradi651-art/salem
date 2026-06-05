@@ -3,26 +3,57 @@
 
 import { useEffect, useRef, useState } from "react"
 import Hls from "hls.js"
-import { Tv, Play, AlertCircle } from "lucide-react"
+import { Tv, Play, AlertCircle, ExternalLink, RefreshCw } from "lucide-react"
 import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 
 export function TvLiveSection() {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const hlsRef = useRef<Hls | null>(null)
   const [isError, setIsError] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
-  // الرابط الجديد الذي زودتنا به
+  const [retryCount, setRetryCount] = useState(0)
+  
+  // الرابط الجديد
   const videoUrl = "https://h42.reelpush.online/live/69854211/index.m3u8"
 
-  useEffect(() => {
+  const initPlayer = () => {
+    setIsError(false)
     if (videoRef.current) {
       if (Hls.isSupported()) {
-        const hls = new Hls()
+        if (hlsRef.current) {
+          hlsRef.current.destroy()
+        }
+        
+        const hls = new Hls({
+          enableWorker: true,
+          lowLatencyMode: true,
+          backBufferLength: 60,
+          manifestLoadingMaxRetry: 4,
+          levelLoadingMaxRetry: 4
+        })
+        
+        hlsRef.current = hls
         hls.loadSource(videoUrl)
         hls.attachMedia(videoRef.current)
+        
         hls.on(Hls.Events.ERROR, (event, data) => {
           if (data.fatal) {
-            console.error("HLS fatal error:", data)
-            setIsError(true)
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                console.log("Network error, trying to recover...")
+                hls.startLoad()
+                break
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                console.log("Media error, trying to recover...")
+                hls.recoverMediaError()
+                break
+              default:
+                console.error("Unrecoverable HLS error:", data)
+                setIsError(true)
+                hls.destroy()
+                break
+            }
           }
         })
       } else if (videoRef.current.canPlayType("application/vnd.apple.mpegurl")) {
@@ -31,16 +62,31 @@ export function TvLiveSection() {
         setIsError(true)
       }
     }
-  }, [videoUrl])
+  }
+
+  useEffect(() => {
+    initPlayer()
+    return () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy()
+      }
+    }
+  }, [videoUrl, retryCount])
 
   const handlePlayClick = () => {
     if (videoRef.current) {
       videoRef.current.play().then(() => {
         setIsPlaying(true)
+        setIsError(false)
       }).catch(err => {
         console.error("Playback failed:", err)
+        // لا نظهر الخطأ فوراً هنا لأن المتصفح قد يمنع التشغيل التلقائي فقط
       })
     }
+  }
+
+  const handleRetry = () => {
+    setRetryCount(prev => prev + 1)
   }
 
   return (
@@ -54,25 +100,47 @@ export function TvLiveSection() {
           <h2 className="text-xl md:text-2xl font-headline font-bold glow-blue">البث المباشر</h2>
         </div>
 
-        <Card className="glass-card overflow-hidden border-white/10 shadow-2xl relative aspect-video group">
+        <Card className="glass-card overflow-hidden border-white/10 shadow-2xl relative aspect-video group bg-black">
           {isError ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/80 p-6 text-center">
-              <AlertCircle className="h-12 w-12 text-destructive mb-4" />
-              <h3 className="text-lg font-bold mb-2">عذراً، تعذر تشغيل البث</h3>
-              <p className="text-sm text-gray-400">الرابط قد يكون متوقفاً مؤقتاً أو يحتاج لمتصفح يدعم تقنية HLS.</p>
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/95 p-6 text-center z-20 animate-in fade-in duration-500">
+              <AlertCircle className="h-12 w-12 text-destructive mb-4 animate-pulse" />
+              <h3 className="text-lg font-bold mb-2">عذراً، تعذر تشغيل البث المدمج</h3>
+              <p className="text-sm text-gray-400 mb-6 max-w-xs">
+                قد يكون الرابط متوقفاً مؤقتاً أو يمنع المتصفح تشغيله هنا لأسباب أمنية.
+              </p>
+              <div className="flex flex-wrap justify-center gap-3">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="gap-2 border-white/10 hover:bg-white/5"
+                  onClick={handleRetry}
+                >
+                  <RefreshCw className="h-4 w-4" />
+                  إعادة محاولة
+                </Button>
+                <Button 
+                  variant="default" 
+                  size="sm"
+                  className="gap-2 bg-primary text-white"
+                  onClick={() => window.open(videoUrl, '_blank')}
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  فتح في نافذة مستقلة
+                </Button>
+              </div>
             </div>
           ) : (
             <>
               <video
                 ref={videoRef}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 controls={isPlaying}
                 playsInline
-                poster="https://picsum.photos/seed/tv-poster/800/450"
+                poster="https://picsum.photos/seed/tv-live/800/450"
               />
               {!isPlaying && (
                 <div 
-                  className="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer group-hover:bg-black/20 transition-colors"
+                  className="absolute inset-0 flex items-center justify-center bg-black/60 cursor-pointer group-hover:bg-black/40 transition-colors z-10"
                   onClick={handlePlayClick}
                 >
                   <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,163,255,0.6)] animate-pulse hover:scale-110 transition-transform">
@@ -85,7 +153,7 @@ export function TvLiveSection() {
         </Card>
         
         <p className="mt-4 text-center text-xs text-gray-500 font-body">
-          ملاحظة: البث المباشر يعمل بجودة عالية ويعتمد على استقرار اتصالك.
+          ملاحظة: إذا لم يعمل المشغل، جرب النقر على "فتح في نافذة مستقلة" للمشاهدة مباشرة.
         </p>
       </div>
     </section>
