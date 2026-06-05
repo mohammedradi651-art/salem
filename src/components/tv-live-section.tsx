@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState } from "react"
 import Hls from "hls.js"
-import { Tv, Play, AlertCircle, ExternalLink, RefreshCw } from "lucide-react"
+import { Tv, Play, AlertCircle, RefreshCw, MonitorPlay } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
@@ -14,7 +14,7 @@ export function TvLiveSection() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [retryCount, setRetryCount] = useState(0)
   
-  // الرابط الجديد
+  // رابط البث المباشر
   const videoUrl = "https://h42.reelpush.online/live/69854211/index.m3u8"
 
   const initPlayer = () => {
@@ -29,8 +29,11 @@ export function TvLiveSection() {
           enableWorker: true,
           lowLatencyMode: true,
           backBufferLength: 60,
-          manifestLoadingMaxRetry: 4,
-          levelLoadingMaxRetry: 4
+          manifestLoadingMaxRetry: 8, // زيادة عدد المحاولات للروابط الضعيفة
+          levelLoadingMaxRetry: 8,
+          xhrSetup: (xhr) => {
+            xhr.withCredentials = false // ضروري لروابط IPTV
+          }
         })
         
         hlsRef.current = hls
@@ -80,7 +83,6 @@ export function TvLiveSection() {
         setIsError(false)
       }).catch(err => {
         console.error("Playback failed:", err)
-        // لا نظهر الخطأ فوراً هنا لأن المتصفح قد يمنع التشغيل التلقائي فقط
       })
     }
   }
@@ -102,30 +104,30 @@ export function TvLiveSection() {
 
         <Card className="glass-card overflow-hidden border-white/10 shadow-2xl relative aspect-video group bg-black">
           {isError ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900/95 p-6 text-center z-20 animate-in fade-in duration-500">
-              <AlertCircle className="h-12 w-12 text-destructive mb-4 animate-pulse" />
-              <h3 className="text-lg font-bold mb-2">عذراً، تعذر تشغيل البث المدمج</h3>
-              <p className="text-sm text-gray-400 mb-6 max-w-xs">
-                قد يكون الرابط متوقفاً مؤقتاً أو يمنع المتصفح تشغيله هنا لأسباب أمنية.
+            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-950/98 p-6 text-center z-20 animate-in fade-in duration-500">
+              <AlertCircle className="h-10 w-10 text-destructive mb-4 animate-pulse" />
+              <h3 className="text-lg font-bold mb-2">عذراً، المشغل المدمج لا يستجيب</h3>
+              <p className="text-xs text-gray-400 mb-6 max-w-xs leading-relaxed">
+                رابط البث قد يحتاج لتطبيق خارجي. نوصي بفتحه عبر مشغل <span className="text-primary font-bold">VLC</span> للحصول على أفضل أداء بدون تقطيع.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <Button 
                   variant="outline" 
                   size="sm"
-                  className="gap-2 border-white/10 hover:bg-white/5"
+                  className="gap-2 border-white/10 hover:bg-white/5 text-xs h-9"
                   onClick={handleRetry}
                 >
-                  <RefreshCw className="h-4 w-4" />
-                  إعادة محاولة
+                  <RefreshCw className="h-3.5 w-3.5" />
+                  تحديث
                 </Button>
                 <Button 
                   variant="default" 
                   size="sm"
-                  className="gap-2 bg-primary text-white"
+                  className="gap-2 bg-primary text-white text-xs h-9"
                   onClick={() => window.open(videoUrl, '_blank')}
                 >
-                  <ExternalLink className="h-4 w-4" />
-                  فتح في نافذة مستقلة
+                  <MonitorPlay className="h-3.5 w-3.5" />
+                  تشغيل في VLC / خارجي
                 </Button>
               </div>
             </div>
@@ -143,8 +145,8 @@ export function TvLiveSection() {
                   className="absolute inset-0 flex items-center justify-center bg-black/60 cursor-pointer group-hover:bg-black/40 transition-colors z-10"
                   onClick={handlePlayClick}
                 >
-                  <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,163,255,0.6)] animate-pulse hover:scale-110 transition-transform">
-                    <Play className="h-10 w-10 text-white fill-current ml-1" />
+                  <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(0,163,255,0.6)] animate-pulse hover:scale-110 transition-transform">
+                    <Play className="h-8 w-8 text-white fill-current ml-1" />
                   </div>
                 </div>
               )}
@@ -152,8 +154,8 @@ export function TvLiveSection() {
           )}
         </Card>
         
-        <p className="mt-4 text-center text-xs text-gray-500 font-body">
-          ملاحظة: إذا لم يعمل المشغل، جرب النقر على "فتح في نافذة مستقلة" للمشاهدة مباشرة.
+        <p className="mt-4 text-center text-[10px] md:text-xs text-gray-500 font-body leading-relaxed max-w-sm mx-auto">
+          ملاحظة: البث المباشر يعمل بشكل أفضل على المتصفحات الحديثة، وفي حال واجهت مشكلة جرب زر "تشغيل في VLC".
         </p>
       </div>
     </section>
