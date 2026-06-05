@@ -8,21 +8,15 @@ export function WhatsAppBar() {
   const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/\s+/g, '')}`
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 pointer-events-none animate-in fade-in slide-in-from-bottom-full duration-1000 delay-700 fill-mode-both">
+    <div className="fixed bottom-6 left-6 z-50 pointer-events-none animate-in fade-in zoom-in duration-700 delay-500 fill-mode-both">
       <a 
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="max-w-md mx-auto flex items-center justify-between gap-4 p-4 rounded-2xl glass-card border-primary/20 pointer-events-auto hover:scale-[1.02] transition-transform shadow-[0_10px_40px_rgba(0,0,0,0.5)] bg-primary/10 group"
+        className="flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-green-500 text-white shadow-[0_10px_30px_rgba(34,197,94,0.4)] pointer-events-auto hover:scale-110 transition-all active:scale-90 group"
+        title="تواصل معنا عبر واتساب"
       >
-        <div className="flex flex-col gap-1">
-          <span className="text-[10px] md:text-xs text-primary font-headline font-bold">تواصل مباشرة</span>
-          <span className="text-xs md:text-sm font-body font-bold text-white">اضغط هنا للانتقال إلى واتساب</span>
-        </div>
-
-        <div className="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center text-white shadow-lg animate-pulse">
-          <MessageCircle className="h-6 w-6" />
-        </div>
+        <MessageCircle className="h-8 w-8 md:h-9 md:w-9" />
       </a>
     </div>
   )
