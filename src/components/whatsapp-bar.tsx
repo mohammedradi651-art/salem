@@ -7,7 +7,7 @@ export function WhatsAppBar() {
   const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/\s+/g, '')}`
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 pointer-events-none">
+    <div className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 pointer-events-none animate-in fade-in slide-in-from-bottom-full duration-1000 delay-700 fill-mode-both">
       <a 
         href={whatsappUrl}
         target="_blank"
