@@ -7,6 +7,7 @@ import { AboutSection } from "@/components/about-section"
 import { SocialPlatforms } from "@/components/social-platforms"
 import { AdsSection } from "@/components/ads-section"
 import { WhatsAppBar } from "@/components/whatsapp-bar"
+import { TvLiveSection } from "@/components/tv-live-section"
 import Image from "next/image"
 
 export default function Home() {
@@ -30,7 +31,6 @@ export default function Home() {
         }}
       >
         <div className="relative mb-6">
-          {/* تأثير الوهج الخلفي الثابت */}
           <div className="absolute inset-[-15%] bg-primary/20 rounded-full blur-[40px]" />
           
           <div className="relative w-32 h-32 rounded-full overflow-hidden border border-white/10 shadow-[0_0_30px_rgba(0,163,255,0.2)]">
@@ -45,13 +45,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* النص التعريفي في شاشة التحميل */}
         <div className="text-center mb-10 flex flex-col gap-1 animate-in fade-in slide-in-from-bottom-2 duration-700">
           <h2 className="text-xl md:text-2xl font-headline font-bold text-white tracking-wide">سالم العوبثاني</h2>
           <p className="text-xs md:text-sm font-body text-primary/80 font-medium">صانع محتوى</p>
         </div>
         
-        {/* حركة النقاط الثلاث */}
         <div className="flex items-center justify-center h-4">
           <div className="dot-typing" />
         </div>
@@ -65,6 +63,7 @@ export default function Home() {
       <AboutSection />
       <AdsSection />
       <SocialPlatforms />
+      <TvLiveSection />
       
       <footer className="py-12 px-6 border-t border-white/5 bg-transparent text-center flex flex-col gap-2">
         <a 
