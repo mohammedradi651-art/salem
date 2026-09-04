@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useEffect } from "react"
@@ -7,7 +6,6 @@ import { AboutSection } from "@/components/about-section"
 import { SocialPlatforms } from "@/components/social-platforms"
 import { AdsSection } from "@/components/ads-section"
 import { WhatsAppBar } from "@/components/whatsapp-bar"
-import { TvLiveSection } from "@/components/tv-live-section"
 import Image from "next/image"
 
 export default function Home() {
@@ -63,7 +61,6 @@ export default function Home() {
       <AboutSection />
       <AdsSection />
       <SocialPlatforms />
-      <TvLiveSection />
       
       <footer className="py-12 px-6 border-t border-white/5 bg-transparent text-center flex flex-col gap-2">
         <a 
